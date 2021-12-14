@@ -1,3 +1,5 @@
+"""Classify datapoints according to their partition."""
+
 import numpy as np
 from numba import jit
 

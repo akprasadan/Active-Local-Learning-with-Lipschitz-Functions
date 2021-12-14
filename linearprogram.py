@@ -1,3 +1,7 @@
+"""
+Find the empirical risk minimizing estimate of a Lipschitz function, using a linear program.
+"""
+
 from typing import List, Tuple, Optional
 import numpy as np
 from scipy.optimize import linprog

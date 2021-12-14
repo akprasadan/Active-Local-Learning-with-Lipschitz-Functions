@@ -1,3 +1,5 @@
+"""Generate (X, Y) samples from a given distribution."""
+
 import numpy as np
 from numpy.random import default_rng
 from typing import List, Tuple, Dict

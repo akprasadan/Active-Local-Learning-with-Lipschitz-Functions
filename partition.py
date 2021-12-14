@@ -1,3 +1,7 @@
+"""
+Partitions the data as in Algorithm 1 of 'Active Local Learning.'
+"""
+
 import numpy as np
 from numpy.random import default_rng
 
