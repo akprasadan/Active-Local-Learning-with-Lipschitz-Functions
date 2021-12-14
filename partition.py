@@ -11,9 +11,8 @@ class Partition:
     Obtain the random partition.
     """
 
-    def __init__(self, L: float, distribution: str, epsilon: float, seed):
+    def __init__(self, L: float, epsilon: float, seed):
         self.L = L
-        self.distribution = None
         self.epsilon = epsilon
         self.epsilon_inverse = np.ceil(1 / epsilon)
         self.offset = self.random_offset()

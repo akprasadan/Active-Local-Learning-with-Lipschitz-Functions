@@ -12,17 +12,17 @@ class Data:
     def __init__(self, endpoints, x):
         self.endpoints = endpoints
         self.x = x
-        self.point_interval()
-        if self.start_idx % 2 == 0:
-            self.interval_type = "long"
-        else:
-            self.interval_type = "short"
+        self.size = self.x.shape[0]
+        self.partition_loc, self.partition_type = self.point_interval()
 
     def point_interval(self) -> None:
-        for element in self.x:
+        starts = np.empty(self.size)
+        types = np.empty(self.size)
+        for i, element in enumerate(self.x):
             start_idx = np.where(self.endpoints > element)[0][0]
-            end_idx = start_idx + 1
-            self.start, self.end = (
-                self.endpoints[start_idx],
-                self.endpoints[start_idx + 1],
-            )
+            starts[i] = start_idx
+            if start_idx % 2 == 0:
+                types[i] = "long"
+            else:
+                types[i] = "short"
+        return starts, types
