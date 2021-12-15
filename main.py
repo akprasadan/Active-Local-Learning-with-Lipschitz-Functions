@@ -1,4 +1,13 @@
-"""Return the prediction at a set of points."""
+"""
+This module performs the main active learning algorithm, using helper classes in the other files. Its jobs include:
+
+- Create a partition
+- Generate sample of unlabeled data points (with labels on hand, though)
+- Generate sample of test points to query points
+- Perform the local function fit on each of the intervals in the partition.
+- Return the predictions at each test point.
+"""
+
 from partition import Partition
 from generatedata import GenerateData
 from partitiondata import Data

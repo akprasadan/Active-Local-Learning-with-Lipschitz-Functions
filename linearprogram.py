@@ -29,6 +29,10 @@ class LinearProgram:
         self.answer = self.optimize()
 
     def generate_constraint_upper(self) -> np.ndarray:
+        """
+        Form the vector b used in the constraint Ax <= b
+        in a linear program."""
+
         bound = np.concatenate(
             (
                 np.zeros((2 * self.sample_size,)),
@@ -40,11 +44,15 @@ class LinearProgram:
         return bound
 
     def generate_bounds(self) -> List[Tuple[Optional[int], Optional[int]]]:
+        """Form the component-wise bounds on the primal variable in the linear program, i.e., lower < x < upper. Store it as a list of tuples, one tuple for each component of the vector."""
+
         bound1 = [(0, None) for i in range(0, self.sample_size)]
         bound2 = [(-self.y[i], 1 - self.y[i]) for i in range(0, self.sample_size)]
         return bound1 + bound2
 
     def generate_constraint_matrix(self) -> np.ndarray:
+        """Form the matrix A used in the linear program constraint, i.e., Ax <= b."""
+
         short_zero_matrix = np.zeros((self.sample_size - 1, self.sample_size))
         off_diag = LinearProgram.diff_op(self.sample_size - 1, self.sample_size)
         identity = np.eye(self.sample_size)
@@ -60,6 +68,8 @@ class LinearProgram:
         return block
 
     def optimize(self) -> np.ndarray:
+        """Solve the optimization problem using scipy.linprog."""
+
         res = linprog(
             c=self.obj_coeff,
             A_ub=self.constraint_matrix,
@@ -70,7 +80,7 @@ class LinearProgram:
 
     @staticmethod
     def diff_op(rows: int, cols: int) -> np.ndarray:
-        # Construct the vector differencing operator
-        # Matrix multiplies to a vector of dimension rows + 1, which when applied would output the consecutive differences in vector of length rows
+        """Construct the differencing linear operator, i.e., the matrix D such that given a vector x = (x_1, x_2, ..., x_n) in R^n, Dx returns a vector in R^{n-1} where the i-th element is x_{i+1} - x_i for i = 1, 2, ..., n-1."""
+
         matrix = -1 * np.eye(N=rows, M=cols, k=0) + np.eye(N=rows, M=cols, k=1)
         return matrix

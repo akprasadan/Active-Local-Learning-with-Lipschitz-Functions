@@ -1,4 +1,4 @@
-"""Generate (X, Y) samples from a given distribution."""
+"""Generate (X, Y) samples from a given distribution. Currently, only the beta distribution is supported."""
 
 import numpy as np
 from numpy.random import default_rng
@@ -23,6 +23,9 @@ class GenerateData:
         self.y = self.generate_y()
 
     def generate_x(self) -> np.ndarray:
+        """
+        Create sorted list of x values."""
+
         pdf = self.distribution_list[self.distribution_x]
 
         draw = np.sort(pdf(self.rng, self.sample_size, self.params_x))
@@ -30,6 +33,8 @@ class GenerateData:
         return draw
 
     def generate_y(self) -> np.ndarray:
+        """Create corresponding y-values."""
+
         pdf = self.distribution_list[self.distribution_y]
 
         draw = pdf(self.rng, self.sample_size, self.params_y)
@@ -37,9 +42,9 @@ class GenerateData:
         return draw
 
     @staticmethod
-    def beta_dist(
-        range_generator, size: int, params: list
-    ) -> np.ndarray:  # uniform by default
+    def beta_dist(range_generator, size: int, params: list) -> np.ndarray:
+        """Create a range_generator that yields beta random variables. Use a = 1, b = 1 for the uniform distribution."""
+
         a, b = params
         return range_generator.beta(a=a, b=b, size=size)
 
